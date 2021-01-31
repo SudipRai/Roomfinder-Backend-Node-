@@ -49,6 +49,8 @@ router.get('/user/login',function(req,res){
             return res.status(200).json({message:"Success",token:token})
         })
     })
-    .catch()
+    .catch(function(e){
+        res.status(500).json({message:e})
+    })
 })
 module.exports=router;
