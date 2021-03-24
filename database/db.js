@@ -1,7 +1,12 @@
 const mongoose=require('mongoose');
 
-mongoose.connect('mongodb://127.0.0.1:27017/dbRoomFinder',{
-    useNewUrlParser:true,
-    useCreateIndex:true,
-    useUnifiedTopology:true
-})
+
+    const conn = mongoose.connect('mongodb://127.0.0.1:27017/dbRoomFinder', {
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        useUnifiedTopology: true,
+      });
+    
+      console.log("connected");
+    
+    

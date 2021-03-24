@@ -1,16 +1,37 @@
 const mongoose=require('mongoose');
 const express=require('express');
-const bodyParser=require('body-parser')
+const colors = require("colors");
+const path = require("path");
+const cors=require('cors')
+const dotenv = require("dotenv")
+const fileupload = require("express-fileupload");
 
-const db=require('./database/db')
+
+dotenv.config({
+    path: "./database/config.env",
+});
+const connectDB=require('./database/db')
+
 const userRegistration_route=require('./routes/userRegistration_route');
-const roomRoute=require('./routes/roomRoute')
+const roomroutess=require('./routes/roomroutess')
+
+
 
 const app=express();
-app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: false })); 
-app.use(userRegistration_route)
-app.use(roomRoute)
 
-  
-app.listen(90)
+app.use(cors())
+app.use(express.json());
+app.use(express.urlencoded({urlencoded:true}))
+
+
+app.use(fileupload());
+
+app.use(express.static(path.join(__dirname, "public")));
+//app.use(fileupload());
+
+app.use(userRegistration_route)
+app.use(roomroutess)
+
+
+app.listen(3000)
+

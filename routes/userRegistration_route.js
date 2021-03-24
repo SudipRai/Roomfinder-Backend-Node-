@@ -1,39 +1,51 @@
 const express=require('express');
 const router=express.Router();
 
+
 const app=express();
+const authcheck=require('../middleware/authcheck')
 const Register=require('../models/userRegistration_model')
 const {check, validationResult}=require('express-validator')
 const bcryptjs=require('bcryptjs')
+const asyncHandler = require("../middleware/async");
+const ErrorResponse = require("../utils/errorResponse");
 const jwt=require('jsonwebtoken')
+
 
 router.post("/register",[
     check('fullname',"Username is required").not().isEmpty(),
-    check('address',"Address is required").not().isEmpty(),
+    check('phone',"Phone is required").not().isEmpty(),
     check('password',"Password is required").not().isEmpty(),
-    check('email',"Address is required").isEmail()
+    check('email',"Email is required").isEmail()
 ], (req, res) => {
+    
     const errors=validationResult(req);
     if(errors.isEmpty()){
         const fullname=req.body.fullname
-        const address=req.body.address
+        const phone=req.body.phone
         const email=req.body.email
+        
         const password=req.body.password
         bcryptjs.hash(password,10,function(err,hash){
-            const myData = new Register({fullname:fullname,address:address,email:email,password:hash});
+            const myData = new Register({fullname:fullname,phone:phone,email:email,password:hash});
             myData.save().then(function(result){
-                res.status(201).json({message:"Registered Sucess"});
-                }).catch(function(err){
-                res.status(500).json({message:"err"})
+                res.status(201).json({
+                   message:"success",
+                   data : result
+                });
+        }).catch(function(err){
+            res.status(500).json({message:"err"}) 
         })
-        });
-    }
+    })
+}
+        
     else{
         res.status(400).json(errors.array());
     }
 });
 
-router.get('/user/login',function(req,res){
+
+router.post('/login',function(req,res){
     const email=req.body.email
     const password=req.body.password
     Register.findOne({email:email})
@@ -45,12 +57,17 @@ router.get('/user/login',function(req,res){
             if(result===false){
                 return res.status(401).json({message:"Invalid"})
             }
+            
             const token=jwt.sign({userid:data._id},'anysecretkey')
-            return res.status(200).json({message:"Success",token:token})
+            return res.status(200).json({message:"success",token:token,user:data._id})
         })
     })
     .catch(function(e){
         res.status(500).json({message:e})
     })
 })
+
+
+
+
 module.exports=router;

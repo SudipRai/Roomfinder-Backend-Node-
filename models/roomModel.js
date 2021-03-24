@@ -1,7 +1,10 @@
-const mongoose=require('mongoose')
+const mongoose=require('mongoose');
+
+
 const Room=mongoose.model('Room',{
     image:{
         type:String,
+        default:"no-photo.jpg",
     },
     title:{
         type:String,
@@ -29,6 +32,10 @@ const Room=mongoose.model('Room',{
     },
     descrption:{
         type:String,
+    },
+    userID:{
+        type:String,
     }
+   
 })
 module.exports=Room;

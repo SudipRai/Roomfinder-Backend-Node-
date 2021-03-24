@@ -8,7 +8,7 @@ const Register=mongoose.model('Register',{
         type:String,
         required:true
     },
-    address:{
+    phone:{
         type:String,
         required:true
     },
