@@ -14,6 +14,7 @@ const connectDB=require('./database/db')
 
 const userRegistration_route=require('./routes/userRegistration_route');
 const roomroutess=require('./routes/roomroutess')
+const watchlistroutes=require('./routes/watchlistRoute')
 
 
 
@@ -31,6 +32,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(userRegistration_route)
 app.use(roomroutess)
+app.use(watchlistroutes)
 
 
 app.listen(3000)

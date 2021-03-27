@@ -76,7 +76,14 @@ router.post("/upload",authcheck.verifyUser, asyncHandler(async(req,res)=>{
  }));
  
      
+ router.get("/room", asyncHandler(async (req, res, next) => {
+  const rooms = await Room.find({});
 
-
+  res.status(201).json({
+    message: "success",
+    count: rooms.length,
+    data: rooms,
+  });
+}));
 
 module.exports=router
