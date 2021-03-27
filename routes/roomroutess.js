@@ -86,4 +86,20 @@ router.post("/upload",authcheck.verifyUser, asyncHandler(async(req,res)=>{
   });
 }));
 
+router.get("/room/:id",authcheck.verifyUser, asyncHandler(async(req,res,next)=>{
+  const id=req.params.id
+  const room = await Room.find({userID:id});
+  
+  if (!room) {
+    return next(new ErrorResponse("Student not found"), 404);
+  }
+
+  res.status(200).json({
+    message: "success",
+    data: room,
+  });
+}))
+
+
+
 module.exports=router
