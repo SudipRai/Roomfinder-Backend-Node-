@@ -132,7 +132,27 @@ router.delete("/room/:id",authcheck.verifyUser, asyncHandler(async(req,res,next)
 }))
 
 
-
+router.put('/room/update/:id', function(req, res) {
+  const id = req.params.id;
+  const image=req.body.image
+  const title=req.body.title
+  const propertytype=req.body.propertytype
+  const roomnumber=req.body.roomnumber
+  const district=req.body.district
+  const city=req.body.city
+  const street=req.body.street
+  const facility=req.body.facility
+  const price=req.body.price
+  const descrption=req.body.descrption
+  const userID = req.body.userID;
+  Room.updateOne({ _id: id }, {image:image,title:title,propertytype:propertytype,roomnumber:roomnumber,district:district,city:city,street:street,facility:facility,price:price,descrption:descrption,userID:userID})
+      .then(function() {
+          res.status(200).json({ message: "updated" })
+      })
+      .catch(function(e) {
+          res.status(500).json({ error: e })
+      })
+})
 
 
 
