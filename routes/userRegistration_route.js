@@ -96,5 +96,20 @@ router.get('/home/owner/:id', asyncHandler(async(req,res)=>{
     });
 }))
 
+router.put('/profile/update/:id', function(req, res) {
+    const id = req.params.id;
+    const fullname=req.body.fullname
+    const email=req.body.email
+    const phone=req.body.phone
+    const password=req.body.password
+    Register.updateOne({ _id: id }, {fullname:fullname,email:email,phone:phone})
+        .then(function() {
+            res.status(200).json({ message: "updated" })
+        })
+        .catch(function(e) {
+            res.status(500).json({ error: e })
+        })
+  })
+
 
 module.exports=router;
