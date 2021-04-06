@@ -82,4 +82,19 @@ router.get('/user/:id',authcheck.verifyUser, asyncHandler(async(req,res)=>{
     });
 }))
 
+router.get('/home/owner/:id', asyncHandler(async(req,res)=>{
+
+    const user = await Register.findById(req.params.id);
+  
+    if (!user) {
+      return next(new ErrorResponse("Student not found"), 404);
+    }
+  
+    res.status(200).json({
+      message: "success",
+      data: user,
+    });
+}))
+
+
 module.exports=router;

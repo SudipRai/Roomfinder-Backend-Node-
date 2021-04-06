@@ -114,6 +114,19 @@ router.get("/getroom/:id",authcheck.verifyUser, asyncHandler(async(req,res,next)
   });
 }))
 
+router.get("/home/getroom/:id", asyncHandler(async(req,res,next)=>{
+  const room = await Room.findById(req.params.id);
+  
+  if (!room) {
+    return next(new ErrorResponse("Student not found"), 404);
+  }
+
+  res.status(200).json({
+    message: "success",
+    data: room,
+  });
+}))
+
 router.delete("/room/:id",authcheck.verifyUser, asyncHandler(async(req,res,next)=>{
 
   const room = await Room.findById(req.params.id);
