@@ -73,7 +73,7 @@ router.get('/user/:id',authcheck.verifyUser, asyncHandler(async(req,res)=>{
     const user = await Register.findById(req.params.id);
   
     if (!user) {
-      return next(new ErrorResponse("Student not found"), 404);
+      return next(new ErrorResponse("User not found"), 404);
     }
   
     res.status(200).json({
@@ -87,7 +87,7 @@ router.get('/home/owner/:id', asyncHandler(async(req,res)=>{
     const user = await Register.findById(req.params.id);
   
     if (!user) {
-      return next(new ErrorResponse("Student not found"), 404);
+      return next(new ErrorResponse("User not found"), 404);
     }
   
     res.status(200).json({

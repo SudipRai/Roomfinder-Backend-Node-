@@ -16,7 +16,7 @@ router.post("/upload",authcheck.verifyUser, asyncHandler(async(req,res)=>{
   
 
   if (!room) {
-    return next(new ErrorResponse("Error adding student"), 404);
+    return next(new ErrorResponse("Error adding room"), 404);
   }
 
   res.status(201).json({
@@ -35,7 +35,7 @@ router.post("/upload",authcheck.verifyUser, asyncHandler(async(req,res)=>{
     const id=req.params.id
     
     if (!room) {
-      return next(new ErrorResponse(`No student found with ${req.params.id}`), 404);
+      return next(new ErrorResponse(`No room found with ${req.params.id}`), 404);
     }
   
   
@@ -91,7 +91,7 @@ router.get("/room/:id",authcheck.verifyUser, asyncHandler(async(req,res,next)=>{
   const room = await Room.find({userID:id});
   
   if (!room) {
-    return next(new ErrorResponse("Student not found"), 404);
+    return next(new ErrorResponse("Room not found"), 404);
   }
 
   res.status(200).json({
@@ -105,7 +105,7 @@ router.get("/getroom/:id",authcheck.verifyUser, asyncHandler(async(req,res,next)
   const room = await Room.findById(req.params.id);
   
   if (!room) {
-    return next(new ErrorResponse("Student not found"), 404);
+    return next(new ErrorResponse("Room not found"), 404);
   }
 
   res.status(200).json({
@@ -118,7 +118,7 @@ router.get("/home/getroom/:id", asyncHandler(async(req,res,next)=>{
   const room = await Room.findById(req.params.id);
   
   if (!room) {
-    return next(new ErrorResponse("Student not found"), 404);
+    return next(new ErrorResponse("Room not found"), 404);
   }
 
   res.status(200).json({
@@ -166,6 +166,23 @@ router.put('/room/update/:id', function(req, res) {
           res.status(500).json({ error: e })
       })
 })
+
+
+
+router.get("/related/room/:city", asyncHandler(async(req,res,next)=>{
+  const city=req.params.city
+  const room = await Room.find({city:city});
+  
+  if (!room) {
+    return next(new ErrorResponse("Room not found"), 404);
+  }
+
+  res.status(200).json({
+    message: "success",
+    count: room.length,
+    data: room,
+  });
+}))
 
 
 
