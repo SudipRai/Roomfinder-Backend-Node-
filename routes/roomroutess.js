@@ -184,6 +184,19 @@ router.get("/related/room/:city", asyncHandler(async(req,res,next)=>{
   });
 }))
 
+router.get("/filter/room/:property", asyncHandler(async(req,res,next)=>{
+  const property=req.params.property
+  const room = await Room.find({propertytype:property});
+  
+  if (!room) {
+    return next(new ErrorResponse("Room not found"), 404);
+  }
 
+  res.status(200).json({
+    message: "success",
+    count: room.length,
+    data: room,
+  });
+}))
 
 module.exports=router
