@@ -13,6 +13,7 @@ const jwt=require('jsonwebtoken')
 
 
 router.post("/register",[
+   
     check('fullname',"Username is required").not().isEmpty(),
     check('phone',"Phone is required").not().isEmpty(),
     check('password',"Password is required").not().isEmpty(),
@@ -21,6 +22,7 @@ router.post("/register",[
     
     const errors=validationResult(req);
     if(errors.isEmpty()){
+        console.log("requested")
         const fullname=req.body.fullname
         const phone=req.body.phone
         const email=req.body.email
@@ -46,6 +48,7 @@ router.post("/register",[
 
 
 router.post('/login',function(req,res){
+    console.log("requested")
     const email=req.body.email
     const password=req.body.password
     Register.findOne({email:email})

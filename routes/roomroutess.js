@@ -9,12 +9,10 @@ const path = require("path");
 const ErrorResponse = require("../utils/errorResponse");
 const fileupload = require('express-fileupload');
 
-
+//--------------------------Uploading post-----------------
 router.post("/upload",authcheck.verifyUser, asyncHandler(async(req,res)=>{
     
   const room = await Room.create(req.body);
-  
-
   if (!room) {
     return next(new ErrorResponse("Error adding room"), 404);
   }
@@ -26,10 +24,7 @@ router.post("/upload",authcheck.verifyUser, asyncHandler(async(req,res)=>{
  }))
 
 
-
-
-
-
+ //--------------------------Updating Post with image file-----------------
  router.put("/upload/:id",authcheck.verifyUser, asyncHandler(async(req,res,next)=>{
     const room = await Room.findById(req.params.id);
     const id=req.params.id
@@ -64,18 +59,14 @@ router.post("/upload",authcheck.verifyUser, asyncHandler(async(req,res)=>{
       await Room.findByIdAndUpdate(req.params.id, {
         image: file.name,
       });
-    });
-        
+    });        
     res.status(200).json({
       success: true,
       data: file.name,
-    });
-    
-   
-  
+    });   
  }));
  
-     
+     //-------------------------GET ALL ROOMS-----------------
  router.get("/room", asyncHandler(async (req, res, next) => {
   const rooms = await Room.find({});
 
@@ -101,6 +92,7 @@ router.get("/room/:id",authcheck.verifyUser, asyncHandler(async(req,res,next)=>{
 }))
 
 
+//-------------------------GET ROOM BY ITS ID----------------
 router.get("/getroom/:id",authcheck.verifyUser, asyncHandler(async(req,res,next)=>{
   const room = await Room.findById(req.params.id);
   
@@ -113,6 +105,8 @@ router.get("/getroom/:id",authcheck.verifyUser, asyncHandler(async(req,res,next)
     data: room,
   });
 }))
+
+//--------------------------GET ROOM BY ITS ID-----------------
 
 router.get("/home/getroom/:id", asyncHandler(async(req,res,next)=>{
   const room = await Room.findById(req.params.id);
@@ -127,6 +121,8 @@ router.get("/home/getroom/:id", asyncHandler(async(req,res,next)=>{
   });
 }))
 
+
+//--------------------------DELETE ROOM -----------------
 router.delete("/room/:id",authcheck.verifyUser, asyncHandler(async(req,res,next)=>{
 
   const room = await Room.findById(req.params.id);
@@ -143,6 +139,8 @@ router.delete("/room/:id",authcheck.verifyUser, asyncHandler(async(req,res,next)
       data: {},
     });
 }))
+
+//--------------------------UPDATE ROOM-----------------
 
 
 router.put('/room/update/:id', function(req, res) {
@@ -168,7 +166,7 @@ router.put('/room/update/:id', function(req, res) {
 })
 
 
-
+//--------------------------GET ROOM BY CITY NAME-----------------
 router.get("/related/room/:city", asyncHandler(async(req,res,next)=>{
   const city=req.params.city
   const room = await Room.find({city:city});
@@ -184,6 +182,8 @@ router.get("/related/room/:city", asyncHandler(async(req,res,next)=>{
   });
 }))
 
+
+//--------------------------GET ROOM BY PROPERTY TYPE-----------------
 router.get("/filter/room/:property", asyncHandler(async(req,res,next)=>{
   const property=req.params.property
   const room = await Room.find({propertytype:property});
