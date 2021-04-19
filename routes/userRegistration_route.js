@@ -11,7 +11,7 @@ const asyncHandler = require("../middleware/async");
 const ErrorResponse = require("../utils/errorResponse");
 const jwt=require('jsonwebtoken')
 
-
+//--------------------------REGISTER USER-----------------
 router.post("/register",[
    
     check('fullname',"Username is required").not().isEmpty(),
@@ -46,6 +46,7 @@ router.post("/register",[
     }
 });
 
+//--------------------------LOGIN-----------------
 
 router.post('/login',function(req,res){
     console.log("requested")
@@ -70,6 +71,7 @@ router.post('/login',function(req,res){
     })
 })
 
+//--------------------------GET CURRENT USER-----------------
 
 router.get('/user/:id',authcheck.verifyUser, asyncHandler(async(req,res)=>{
 
@@ -85,6 +87,9 @@ router.get('/user/:id',authcheck.verifyUser, asyncHandler(async(req,res)=>{
     });
 }))
 
+
+//--------------------------GET THE DETAILS OF OWNER BY POST(ROOM)-----------------
+
 router.get('/home/owner/:id', asyncHandler(async(req,res)=>{
 
     const user = await Register.findById(req.params.id);
@@ -99,6 +104,7 @@ router.get('/home/owner/:id', asyncHandler(async(req,res)=>{
     });
 }))
 
+//--------------------------PROFILE UPDATE-----------------
 router.put('/profile/update/:id', function(req, res) {
     const id = req.params.id;
     const fullname=req.body.fullname
