@@ -73,7 +73,7 @@ router.post('/login',function(req,res){
 
 //--------------------------GET CURRENT USER-----------------
 
-router.get('/user/:id',authcheck.verifyUser, asyncHandler(async(req,res)=>{
+router.get('/user/:id',authcheck.verifyUser, asyncHandler(async(req,res,next)=>{
 
     const user = await Register.findById(req.params.id);
   

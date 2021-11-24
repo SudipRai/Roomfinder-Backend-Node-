@@ -27,7 +27,17 @@ router.post("/upload",authcheck.verifyUser, asyncHandler(async(req,res)=>{
  //--------------------------Updating Post with image file-----------------
  router.put("/upload/:id",authcheck.verifyUser, asyncHandler(async(req,res,next)=>{
     const room = await Room.findById(req.params.id);
-    const id=req.params.id
+    const id = req.params.id;
+    const title=req.body.title
+    const propertytype=req.body.propertytype
+    const roomnumber=req.body.roomnumber
+    const district=req.body.district
+    const city=req.body.city
+    const street=req.body.street
+    const facility=req.body.facility
+    const price=req.body.price
+    const descrption=req.body.descrption
+    const userID = req.body.userID;
     
     if (!room) {
       return next(new ErrorResponse(`No room found with ${req.params.id}`), 404);
@@ -58,6 +68,7 @@ router.post("/upload",authcheck.verifyUser, asyncHandler(async(req,res)=>{
       }
       await Room.findByIdAndUpdate(req.params.id, {
         image: file.name,
+        title:title,propertytype:propertytype,roomnumber:roomnumber,district:district,city:city,street:street,facility:facility,price:price,descrption:descrption,userID:userID
       });
     });        
     res.status(200).json({
